@@ -962,13 +962,13 @@ nm programa | grep area_circulo
 **P13.** Enlazá con `gcc programa.o matematica.o -o programa`.
 Ejecutá `nm programa | grep "area_circulo"` y copiá la salida.
 
-> **R:**
+> **R:00000000000012ec T area_circulo**
 
 ¿Con qué letra aparece ahora `area_circulo` en el ejecutable final?
 Escribí solo la letra:
 
 <!-- Completá con la letra exacta que muestra nm: -->
-TIPO_AREA_ENLAZADO=
+TIPO_AREA_ENLAZADO=T
 
 ---
 
@@ -984,17 +984,19 @@ Quedan algunos `U` incluso en el ejecutable final. ¿Por qué? Son funciones de 
 
 **P14.** Ejecutá `nm programa | grep "^ *U"` y copiá la salida.
 
-> **R:**
+> **R:U __libc_start_main@GLIBC_2.34
+                 U printf@GLIBC_2.2.5
+                 U puts@GLIBC_2.2.5**
 
 ¿Quedan símbolos de tipo `U` en el ejecutable final?
 Respondé SI o NO:
 
 <!-- Completá con SI o NO: -->
-SIMBOLOS_U_FINAL=
+SIMBOLOS_U_FINAL=SI
 
 ¿Por qué quedan? ¿Quién los resuelve y cuándo?
 
-> **R:**
+> **R:Quedan porque no se copio en el ejecutable su implementacion, ya que la libreria que tiene el codigo se enlazara dinamicamente.El cargador dinamico resolvera esto y sera cuando elijamos ejecutar el programa**
 
 ---
 
@@ -1008,12 +1010,19 @@ SIMBOLOS_U_FINAL=
 
 **P15.** Ejecutá `./programa` y copiá la salida completa.
 
-> **R:**
+> **R:0! = 1
+  1! = 1
+  2! = 2
+  3! = 6
+  4! = 24
+  5! = 120
+  ----------------------------------------
+  Llamadas a sumar(): 1**
 
 ¿Qué valor da `factorial(5)`? Escribí solo el número:
 
 <!-- Completá con el número exacto: -->
-FACTORIAL_5=
+FACTORIAL_5=120
 
 ---
 
@@ -1025,25 +1034,27 @@ FACTORIAL_5=
 como `CUADRADO(x)` y una **función real** como `sumar(a, b)`.
 ¿En qué etapa "desaparece" cada una? ¿Cuál tiene verificación de tipos?
 
-> **R:**
+> **R:La diferencia el preprocesador no ocupa tiempo para hacer el reemplazo de la macro cuando la funcion real ya esta definida en el .c y en la macro no se realiza ninguna verificacion semantica si los datos que estan operadandose son de tipos diferentes, ejemplo: podria estar sumando un char con un int. La macro desaparece en el preprocesamiento y la funcion no pienso que desaparezca sino que se ira transformando hasta un nivel de abstraccion que solo lo entienda la maquina**
 
 ---
 
 **P17.** ¿Qué diferencia hay entre un símbolo de tipo `T` y uno de tipo `D`
 en la salida de `nm`? ¿En qué sección del archivo objeto vive cada uno?
 
-> **R:**
+> **R:El tipo T me ayuda a saber si la funcion esta definida en el archivo sobre el cual use el comando nm y el D que variables estan inicializadas. Los tipo T estan en la seccion text y los D estan en data**
 
 ---
 
 **P18.** (Bonus) Ejecutá `otool -L programa` (macOS) o `ldd programa` (Linux)
 y copiá la salida.
 
-> **R:**
+> **R:linux-vdso.so.1 (0x000072c224f4c000)
+        libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x000072c224c00000)
+        /lib64/ld-linux-x86-64.so.2 (0x000072c224f4e000)**
 
 ¿Por qué `libc` no hubo que especificarla explícitamente al enlazar con `gcc`?
 
-> **R:**
+> **R:Pienso que libc es la biblioteca padre donde siempre ira el linker si no encuentra alguna implementacion**
 
 ---
 
